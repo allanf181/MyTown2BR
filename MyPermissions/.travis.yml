@@ -1,0 +1,27 @@
+sudo: false
+language: java
+notifications:
+  email: false
+  irc:
+    channels:
+      - "irc.esper.net#MyTown"
+    template:
+      - "%{repository_name} (%{branch}): %{commit_message} - %{author}"
+      - "Result: %{result}"
+      - "Change view: %{compare_url}"
+      - "Build details: %{build_url}"
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+deploy:
+  - provider: script
+    script: gradle curse
+    on:
+      tags: true
+      repo: MyEssentials/MyEssentials-Core
+      all_branches: true
+before_install:
+  - git submodule update --init --recursive
+  - pip install --user codecov
+after_success:
+  - codecov

@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+repositories {
+    maven {
+        name = "bukkit-repo"
+        url = "http://repo.bukkit.org/content/groups/public/"
+    }
+    maven {
+        name = "SpongePowered"
+        url = "https://repo.spongepowered.org/maven"
+    }
+    maven {
+        name = "sk89q"
+        url = "http://maven.sk89q.com/artifactory/repo/"
+    }
+}
+
+apply plugin: "forge"
+
+sourceSets {
+    integrationTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/integration-test/java')
+        }
+        resources.srcDir file('src/integration-test/resources')
+    }
+}
+
+
+// Load Configs
+
+
+version = "1.00r"
+group = ""
+archivesBaseName = "MyEssentials-TestSuite"
+
+minecraft {
+    version = "1.7.10-10.13.2.1291"
+}
+
+
+// Setup Deps
+dependencies {
+    compile "junit:junit:4.11"
+    compile files("libs/ForgeGradle-1.2-SNAPSHOT.jar")
+}
+
+task printClasspath {
+    doLast {
+        println files().getAsPath()
+    }
+}
